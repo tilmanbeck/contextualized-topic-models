@@ -1,6 +1,6 @@
 import numpy as np
 from sentence_transformers import SentenceTransformer
-
+from collections import Iterable
 
 def get_bag_of_words(data, min_length):
 
@@ -25,8 +25,9 @@ def bert_embeddings_from_list(texts, sbert_model_to_load):
 
 class TextHandler:
 
-    def __init__(self, file_name):
-        self.file_name = file_name
+    def __init__(self, data):
+
+        self.data = data
         self.vocab_dict = {}
         self.vocab = []
         self.index_dd = None
@@ -39,13 +40,17 @@ class TextHandler:
         :param text_file:
         :return:
         """
-        with open(self.file_name, "r") as filino:
+        with open(self.data, "r") as filino:
             data = filino.readlines()
 
         return data
 
     def prepare(self):
-        data = self.load_text_file()
+        if isinstance(self.data, Iterable):
+            # list of texts
+            data = self.data
+        else:
+            data = self.load_text_file()
 
         concatenate_text = ""
         for line in data:
