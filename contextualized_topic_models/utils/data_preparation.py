@@ -49,7 +49,7 @@ class TextHandler:
         return data
 
     def prepare(self):
-        if isinstance(self.data, Iterable):
+        if isinstance(self.data, list):
             # list of texts
             data = self.data
         else:
