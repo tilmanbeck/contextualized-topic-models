@@ -1,6 +1,7 @@
 import numpy as np
 from sentence_transformers import SentenceTransformer
 from collections import Iterable
+import logging
 
 def get_bag_of_words(data, min_length):
 
@@ -19,7 +20,9 @@ def bert_embeddings_from_file(text_file, sbert_model_to_load):
 
 
 def bert_embeddings_from_list(texts, sbert_model_to_load='bert-base-nli-mean-tokens'):
+    logging.debug("SBERT: transforming texts started")
     model = SentenceTransformer(sbert_model_to_load)
+    logging.debug("SBERT: transforming texts finished")
     return np.array(model.encode(texts))
 
 

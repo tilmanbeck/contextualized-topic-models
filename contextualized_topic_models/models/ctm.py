@@ -2,6 +2,7 @@ import os
 from collections import defaultdict
 import multiprocessing as mp
 import requests
+import logging
 
 import numpy as np
 import datetime
@@ -200,11 +201,12 @@ class CTM(object):
                Learning Rate: {}\n\
                Momentum: {}\n\
                Reduce On Plateau: {}\n\
-               Save Dir: {}".format(
+               Save Dir: {}\n\
+               CUDA: {}".format(
                    self.n_components, 0.0,
                    1. - (1./self.n_components), self.model_type,
                    self.hidden_sizes, self.activation, self.dropout, self.learn_priors,
-                   self.lr, self.momentum, self.reduce_on_plateau, save_dir))
+                   self.lr, self.momentum, self.reduce_on_plateau, save_dir, self.USE_CUDA))
 
         self.model_dir = save_dir
         self.train_data = train_dataset
