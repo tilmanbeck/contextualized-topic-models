@@ -1,5 +1,5 @@
 wheel==0.33.6
-torch
+torch==1.5.1
 numpy
 torchvision
 gensim

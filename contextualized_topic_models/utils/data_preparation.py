@@ -18,7 +18,7 @@ def bert_embeddings_from_file(text_file, sbert_model_to_load):
     return np.array(model.encode(train_text))
 
 
-def bert_embeddings_from_list(texts, sbert_model_to_load):
+def bert_embeddings_from_list(texts, sbert_model_to_load='bert-base-nli-mean-tokens'):
     model = SentenceTransformer(sbert_model_to_load)
     return np.array(model.encode(texts))
 
