@@ -12,14 +12,20 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--input")
 args = parser.parse_args()
 
-#df = pd.read_csv(args.input, sep="\t")
-#df = pd.read_csv("/home/beck/Data/temporal-argmin/trec_microblog/trec_2011_2012_2013_2014_cat2.tsv", sep="\t")
-df = pd.read_csv("/home/beck/Repositories/Data/trec_microblog/trec_2011_2012_2013_2014_cat2.tsv", sep="\t")
+if args.input.endswith(".tsv"):
+	df = pd.read_csv(args.input, sep="\t")
+	texts = list(df['full_text'].values)
+	ids = list(df['tweetId'].values)
+	nr_topics = len(df['topicId'].unique())
+else:
+	df = pd.read_json(args.input, orient='records', lines=True)
+	texts = list(df['body'].values)
+	ids = list(df['identifier'].values)
+	nr_topics = len(df['topicId'].unique())
 
-true_labels = list(df['topicId'].values)
-texts = list(df['full_text'].values)
-ids = list(df['tweetId'].values)
-nr_topics = len(df['topicId'].unique())
+#df = pd.read_csv("/home/beck/Data/temporal-argmin/trec_microblog/trec_2011_2012_2013_2014_cat2.tsv", sep="\t")
+#df = pd.read_csv("/home/beck/Repositories/Data/trec_microblog/trec_2011_2012_2013_2014_cat2.tsv", sep="\t")
+
 
 handler = TextHandler(texts)
 handler.prepare() # create vocabulary and training data
@@ -38,7 +44,7 @@ distribution = ctm.get_thetas(training_dataset)
 
 best_match_topics = np.argmax(distribution, axis=1)
 
-with open('predictions_CTM.txt', 'w') as  fp:
+with open('predictions_CTM_'+ args.input.split("/")[-1] +'.txt', 'w') as  fp:
 	for ID, topicId in zip(ids, best_match_topics):
-		fp.write(ID + ' ' + topicId + '\n')
+		fp.write(str(ID) + ' ' + str(topicId) + '\n')
 

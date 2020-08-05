@@ -1,7 +1,7 @@
 wheel==0.33.6
-torch==1.5.1
+torch==1.5.1+cu101
 numpy
-torchvision
+torchvision==0.6.0+cu101
 gensim
 sentence-transformers
 pytest==4.6.5
