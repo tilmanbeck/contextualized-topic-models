@@ -29,6 +29,9 @@ else:
     print('not implemented yet')
     exit()
 
+print('nr of data samples:', len(texts))
+print('nr topics:', nr_topics)
+
 handler = TextHandler(texts)
 handler.prepare()  # create vocabulary and training data
 
