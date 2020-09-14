@@ -12,6 +12,7 @@ logging.basicConfig(level=logging.DEBUG)
 parser = argparse.ArgumentParser()
 parser.add_argument("--input")
 parser.add_argument("--dataset")
+parser.add_argument("--epochs", default=5, type=int)
 args = parser.parse_args()
 
 if args.dataset == "trec":
@@ -36,7 +37,7 @@ training_bert = bert_embeddings_from_list(texts, 'bert-base-nli-mean-tokens')
 
 training_dataset = CTMDataset(handler.bow, training_bert, handler.idx2token)
 
-ctm = CTM(input_size=len(handler.vocab), bert_input_size=768, num_epochs=5, inference_type="combined",
+ctm = CTM(input_size=len(handler.vocab), bert_input_size=768, num_epochs=args.epochs, inference_type="combined",
           n_components=nr_topics, num_data_loader_workers=5)
 
 ctm.fit(training_dataset)  # run the model
